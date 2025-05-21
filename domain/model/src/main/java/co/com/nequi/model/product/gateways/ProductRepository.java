@@ -8,4 +8,5 @@ public interface ProductRepository {
     Mono<Product> update(Integer stock);
     Mono<Product> update(String name);
     Mono<Integer> delete(Integer id);
+    Mono<Integer> findBy(String franchiseName);
 }
