@@ -5,8 +5,7 @@ import reactor.core.publisher.Mono;
 
 public interface ProductRepository {
     Mono<Product> create(Product product);
-    Mono<Product> update(Integer stock);
-    Mono<Product> update(String name);
+    Mono<Product> update(Product product);
     Mono<Integer> delete(Integer id);
     Mono<Integer> findBy(String franchiseName);
 }

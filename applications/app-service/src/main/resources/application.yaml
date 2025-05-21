@@ -11,6 +11,9 @@ spring:
       path: "/h2"
   profiles:
     include: null
+  webflux:
+    base-path: /franchise/api/v1/
+
 management:
   endpoints:
     web:
@@ -20,5 +23,11 @@ management:
     health:
       probes:
         enabled: true
-cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+
+adapters:
+  reactive-web:
+    product: "product"
+    branch: "branch"
+    franchise: "franchise"
+
+

@@ -13,19 +13,15 @@ public class ProductUseCase {
         return repository.create(product);
     }
 
-    public Mono<Product> updateName(Product product){
-        return repository.update(product.getName());
-    }
-
-    public Mono<Product> updateStock(Product product){
-        return repository.update(product.getName());
+    public Mono<Product> update(Product product){
+        return repository.update(product);
     }
 
     public Mono<Integer> delete(Integer id){
         return repository.delete(id);
     }
 
-    public Mono<Integer> find(String franchiseName){
+    public Mono<Integer> findBy(String franchiseName){
         return repository.findBy(franchiseName);
     }
 }
