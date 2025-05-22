@@ -1,21 +1,18 @@
-package co.com.nequi.api.branch.data;
+package co.com.nequi.r2dbc.branch.data;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@Table("branch")
 public class BranchDTO {
-    @Min(1)
+    @Id
     private Integer id;
-    @Min(1)
-    @NonNull
     private Integer idFranchise;
-    @NonNull
-    @Size(min = 1)
     private String name;
 }

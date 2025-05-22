@@ -1,21 +1,18 @@
-package co.com.nequi.api.product.data;
+package co.com.nequi.r2dbc.product.data;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@Table("product")
 public class ProductDTO {
-    @Min(1)
+    @Id
     private Integer id;
-    @NonNull
-    @Size(min = 1)
     private String name;
-    @NonNull
-    @Min(0)
     private Integer stock;
 }

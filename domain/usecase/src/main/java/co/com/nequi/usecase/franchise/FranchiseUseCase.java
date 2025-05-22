@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class FranchiseUseCase {
-    private FranchiseRepository repository;
+    private final FranchiseRepository repository;
 
     public Mono<Franchise> create(Franchise franchise){
         return repository.create(franchise);

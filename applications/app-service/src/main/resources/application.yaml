@@ -29,5 +29,10 @@ adapters:
     product: "product"
     branch: "branch"
     franchise: "franchise"
-
+  r2dbc:
+    host: "localhost"
+    port: 3306
+    database: "franquicias"
+    username: "user"
+    password: "password"
 

@@ -34,12 +34,6 @@ public class HandlerProduct {
                 .flatMap(ResponseUtil::responseOk);
     }
 
-    public Mono<ServerResponse> find(ServerRequest serverRequest) {
-        var franchiseName = serverRequest.queryParam("franchise-name").get();
-        return useCase.findBy(franchiseName)
-                .flatMap(ResponseUtil::responseOk);
-    }
-
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         var id = Integer.parseInt(serverRequest.queryParam("id").get());
         return useCase.delete(id)

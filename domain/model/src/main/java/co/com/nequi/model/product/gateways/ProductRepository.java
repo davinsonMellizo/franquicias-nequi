@@ -7,5 +7,5 @@ public interface ProductRepository {
     Mono<Product> create(Product product);
     Mono<Product> update(Product product);
     Mono<Integer> delete(Integer id);
-    Mono<Integer> findBy(String franchiseName);
+    Mono<Product> getProductWithLargestStock(Integer idBranch);
 }

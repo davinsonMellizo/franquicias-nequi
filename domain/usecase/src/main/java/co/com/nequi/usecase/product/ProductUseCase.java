@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class ProductUseCase {
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     public Mono<Product> create(Product product){
         return repository.create(product);
@@ -21,7 +21,7 @@ public class ProductUseCase {
         return repository.delete(id);
     }
 
-    public Mono<Integer> findBy(String franchiseName){
-        return repository.findBy(franchiseName);
+    public Mono<Product> getProductWithLargestStock(Integer idBranch){
+        return repository.getProductWithLargestStock(idBranch);
     }
 }

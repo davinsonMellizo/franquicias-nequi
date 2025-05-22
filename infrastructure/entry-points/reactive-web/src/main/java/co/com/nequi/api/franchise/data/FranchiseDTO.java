@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class FranchiseDTO {
-    @Min(0)
+    @Min(1)
     private Integer id;
     @NonNull
     @Size(min = 1)

@@ -33,4 +33,10 @@ public class HandlerBranch {
                 .flatMap(useCase::update)
                 .flatMap(ResponseUtil::responseOk);
     }
+
+    public Mono<ServerResponse> find(ServerRequest serverRequest) {
+        var idFranchise = Integer.parseInt(serverRequest.queryParam("franchise-id").get());
+        return useCase.findBy(idFranchise)
+                .flatMap(ResponseUtil::responseOk);
+    }
 }
