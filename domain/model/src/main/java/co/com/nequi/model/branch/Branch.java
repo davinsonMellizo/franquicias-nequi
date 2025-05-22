@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,5 +16,5 @@ public class Branch {
     private Integer id;
     private Integer idFranchise;
     private String name;
-    private List<Product> products;
+    private Product productLargestStock;
 }

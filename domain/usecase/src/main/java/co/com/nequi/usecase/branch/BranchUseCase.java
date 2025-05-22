@@ -15,7 +15,7 @@ public class BranchUseCase {
 
     private Mono<Branch> getProduct(Branch branch){
         return productUseCase.getProductWithLargestStock(branch.getId())
-                .map(product -> branch.toBuilder().products(List.of(product)).build());
+                .map(product -> branch.toBuilder().productLargestStock(product).build());
     }
 
     public Mono<Branch> create(Branch branch){
