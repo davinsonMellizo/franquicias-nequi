@@ -12,6 +12,7 @@ import lombok.Setter;
 @Builder(toBuilder = true)
 public class Product {
     private Integer id;
+    private Integer idBranch;
     private String name;
     private Integer stock;
 }

@@ -19,6 +19,7 @@ public class BranchRouterRest {
     public RouterFunction<ServerResponse> routerFunctionBranch(HandlerBranch handlerBranch) {
         return route(POST(apiProperties.getBranch()), handlerBranch::create)
                 .andRoute(PUT(apiProperties.getBranch()), handlerBranch::update)
-                .and(route(GET(apiProperties.getBranch()), handlerBranch::find));
+                .and(route(GET(apiProperties.getBranch()+"/largest-stock"), handlerBranch::find))
+                .and(route(GET(apiProperties.getBranch()), handlerBranch::findAll));
     }
 }

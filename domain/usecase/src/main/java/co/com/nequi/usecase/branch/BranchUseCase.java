@@ -31,4 +31,9 @@ public class BranchUseCase {
                 .flatMap(this::getProduct)
                 .collectList();
     }
+
+    public Mono<List<Branch>> findAll(Integer idFranchise){
+        return repository.findBy(idFranchise)
+                .collectList();
+    }
 }

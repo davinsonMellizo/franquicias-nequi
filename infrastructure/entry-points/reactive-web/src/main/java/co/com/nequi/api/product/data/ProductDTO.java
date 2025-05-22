@@ -13,6 +13,9 @@ public class ProductDTO {
     @Min(1)
     private Integer id;
     @NonNull
+    @Min(1)
+    private Integer idBranch;
+    @NonNull
     @Size(min = 1)
     private String name;
     @NonNull

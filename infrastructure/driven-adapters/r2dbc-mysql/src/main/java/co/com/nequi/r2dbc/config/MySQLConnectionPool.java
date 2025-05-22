@@ -5,6 +5,7 @@ import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
 import io.r2dbc.pool.ConnectionPool;
 import io.r2dbc.pool.ConnectionPoolConfiguration;
 import io.r2dbc.spi.ConnectionFactory;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -20,11 +21,11 @@ public class MySQLConnectionPool {
     @Bean
     public ConnectionFactory connectionFactory(MysqlConnectionProperties properties) {
         MySqlConnectionConfiguration config = MySqlConnectionConfiguration.builder()
-                .host(properties.host())
-                .port(properties.port())
-                .username(properties.username())
-                .password(properties.password())
-                .database(properties.database())
+                .host(properties.getHost())
+                .port(properties.getPort())
+                .username(properties.getUsername())
+                .password(properties.getPassword())
+                .database(properties.getDatabase())
                 .build();
 
         return new ConnectionPool(
@@ -40,4 +41,20 @@ public class MySQLConnectionPool {
     public R2dbcEntityTemplate r2dbcEntityTemplate(ConnectionFactory connectionFactory) {
         return new R2dbcEntityTemplate(connectionFactory);
     }
+
+    // Eliminar para ambientes productivos
+    @Bean
+    public ApplicationRunner schemaInitializer(R2dbcEntityTemplate template) {
+        return args -> {
+            String schemaSql = new String(
+                    getClass().getClassLoader().getResourceAsStream("schema.sql").readAllBytes()
+            );
+
+            template.getDatabaseClient()
+                    .sql(schemaSql)
+                    .then()
+                    .subscribe();
+        };
+    }
+
 }

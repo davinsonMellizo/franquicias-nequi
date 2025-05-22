@@ -35,9 +35,7 @@ public class BranchRepositoryImpl extends ReactiveAdapterOperations<Branch, Bran
 
     @Override
     public Flux<Branch> findBy(Integer idFranchise) {
-        System.out.println("si llega");
         return repository.findBy(idFranchise)
-                .doOnNext(branchDTO -> System.out.println("no llega"))
                 .map(this::toEntity);
     }
 }

@@ -36,4 +36,9 @@ public class HandlerFranchise {
                 .flatMap(useCase::update)
                 .flatMap(ResponseUtil::responseOk);
     }
+
+    public Mono<ServerResponse> find(ServerRequest serverRequest) {
+        return useCase.find()
+                .flatMap(ResponseUtil::responseOk);
+    }
 }

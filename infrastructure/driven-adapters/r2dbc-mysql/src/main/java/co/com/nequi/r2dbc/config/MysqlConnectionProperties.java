@@ -1,13 +1,17 @@
 package co.com.nequi.r2dbc.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.*;
 
-@ConfigurationProperties(prefix = "adapters.r2dbc")
-public record MysqlConnectionProperties(
-        String host,
-        Integer port,
-        String database,
-        String schema,
-        String username,
-        String password) {
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class MysqlConnectionProperties {
+    private String host;
+    private Integer port;
+    private String database;
+    private String schema;
+    private String username;
+    private String password;
 }

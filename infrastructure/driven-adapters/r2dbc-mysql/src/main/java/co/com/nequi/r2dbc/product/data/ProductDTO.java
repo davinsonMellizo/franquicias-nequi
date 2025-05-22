@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ProductDTO {
     @Id
     private Integer id;
+    private Integer idBranch;
     private String name;
     private Integer stock;
 }

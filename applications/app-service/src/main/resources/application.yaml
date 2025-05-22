@@ -12,7 +12,15 @@ spring:
   profiles:
     include: null
   webflux:
-    base-path: /franchise/api/v1/
+    base-path: "/franchise/api/v1/"
+  logging:
+    level:
+      root: INFO
+      reactor:
+        netty: OFF
+  sql:
+    init:
+      mode: always
 
 management:
   endpoints:
@@ -23,16 +31,12 @@ management:
     health:
       probes:
         enabled: true
-
 adapters:
   reactive-web:
     product: "product"
     branch: "branch"
     franchise: "franchise"
-  r2dbc:
-    host: "localhost"
-    port: 3306
-    database: "franquicias"
-    username: "user"
-    password: "password"
 
+aws:
+  region: "us-east-1"
+  rdsSecretName: "nequi-franchise-cxn"
