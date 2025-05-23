@@ -1,17 +1,11 @@
 allprojects {
     repositories {
-        maven {
-            url = "https://artifactory.apps.bancolombia.com/maven-bancolombia"
-        }
         mavenCentral()
-        maven { url = "https://repo.spring.io/snapshot" }
-        maven { url = "https://repo.spring.io/milestone" }
     }
 }
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'io.spring.dependency-management'
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -57,4 +51,5 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.named('wrapper') {
     gradleVersion = '8.13'
+    validateDistributionUrl = false
 }
