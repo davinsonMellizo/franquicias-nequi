@@ -1,10 +1,16 @@
-# Proyecto Base Implementando Clean Architecture
+# Arranchar el proyecto con Docker 
 
-## Antes de Iniciar
+Asegurate de tener Docker y que los puertos 8080 y 3306 esten libres, así como los nombres usados para 
+la red, las imagenes y los contenedores no esten siendo usados.
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
+**NOTA:** Ejecuta los comandos en la carpeta raiz del proyecto donde se encuentra ubicado el archivo Dockerfile 
 
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+**Ejecuta los siguientes comandos:**
+- `docker network create franquicias_red .`
+- `docker pull mysql`
+- `docker run -d --name mysql-franquicias --network franquicias_red -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=franquicias  mysql`
+- `docker build -t franquicias-img .`
+- `docker run -d --name franquicias-cont --network franquicias_red -p 8080:8080 franquicias-img`
 
 # Arquitectura
 

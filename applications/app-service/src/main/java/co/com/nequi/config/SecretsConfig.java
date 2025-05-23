@@ -34,7 +34,7 @@ public class SecretsConfig {
 
     return connector.getSecret(secretName, MysqlConnectionProperties.class)
             .onErrorResume(e-> Mono.just(MysqlConnectionProperties.builder()
-                    .host("mysql-franquicias")
+                    .host("localhost")
                     .database("franquicias")
                     .port(3306)
                     .password("password")
