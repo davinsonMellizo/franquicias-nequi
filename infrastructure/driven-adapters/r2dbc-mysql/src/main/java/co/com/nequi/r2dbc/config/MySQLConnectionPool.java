@@ -25,7 +25,7 @@ public class MySQLConnectionPool {
                 .port(properties.getPort())
                 .username(properties.getUsername())
                 .password(properties.getPassword())
-                .database(properties.getDatabase())
+                .database(properties.getDbname())
                 .build();
 
         return new ConnectionPool(

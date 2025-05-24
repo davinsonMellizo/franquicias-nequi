@@ -10,7 +10,7 @@ import lombok.*;
 public class MysqlConnectionProperties {
     private String host;
     private Integer port;
-    private String database;
+    private String dbname;
     private String schema;
     private String username;
     private String password;

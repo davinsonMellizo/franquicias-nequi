@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,7 +25,7 @@ class MySQLConnectionPoolTest {
 
         when(properties.getHost()).thenReturn("localhost");
         when(properties.getPort()).thenReturn(5432);
-        when(properties.getDatabase()).thenReturn("dbName");
+        when(properties.getDbname()).thenReturn("dbName");
         when(properties.getUsername()).thenReturn("username");
         when(properties.getPassword()).thenReturn("password");
     }
