@@ -334,4 +334,6 @@ gradle-app.setting
 # -----
 *.hprof
 
-!app-service.jar
+!applications/app-service/build/build/app-service.jar
+
+
