@@ -12,7 +12,7 @@ la red, las imagenes y los contenedores no esten siendo usados.
 - `docker build -t franquicias-img .`
 - `docker run -d --name franquicias-cont --network franquicias_red -p 8080:8080 franquicias-img`
 
-# Arquitectura
+# Arquitectura Basada en clean architecture
 
 ![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
 
