@@ -171,6 +171,7 @@ modules.xml
 
 # Package Files #
 *.jar
+!app-service.jar
 *.war
 *.nar
 *.ear

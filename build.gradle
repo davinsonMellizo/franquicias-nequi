@@ -1,18 +1,18 @@
 buildscript {
-	ext {
-		springBootVersion = '3.4.4'
+    ext {
+        springBootVersion = '3.4.4'
         lombokVersion = '1.18.38'
-	}
+    }
 }
 
 plugins {
-	id 'java'
+    id 'java'
 }
 
 jar {
-	manifest{
-		attributes('Main-Class': 'co.com.nequi.MainApplication')
-	}
+    manifest{
+        attributes('Main-Class': 'co.com.nequi.MainApplication')
+    }
 }
 
 apply from: './main.gradle'

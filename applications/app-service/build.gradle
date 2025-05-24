@@ -1,4 +1,5 @@
 dependencies {
+	testImplementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'com.github.bancolombia:aws-secrets-manager-async:4.4.31'
 	implementation 'software.amazon.awssdk:sts'
 	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
@@ -19,5 +20,5 @@ tasks.register('explodedJar', Copy) {
 
 jar {
     // To disable the *-plain.jar
-    enabled = false
+    enabled = true
 }
