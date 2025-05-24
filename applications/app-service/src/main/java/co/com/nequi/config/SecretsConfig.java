@@ -40,7 +40,7 @@ public class SecretsConfig {
                     .password("password")
                     .username("root")
                     .build()
-            ))//Eliminar para ambiente productivo
+            ))//Eliminar para ambiente productivo y configurar el secreto de conexion
             .block();
   }
 }

@@ -1,9 +1,20 @@
-# Arranchar el proyecto con Docker 
+# Descripción:
+Microservicio para la administración de franquicias.
 
-Asegurate de tener Docker y que los puertos 8080 y 3306 esten libres, así como los nombres usados para 
-la red, las imagenes y los contenedores no esten siendo usados.
+## Servicios que ofrece el proyecto
+- Consulta de las franquicias
+- Consulta de las sucursales para una franquicia
+- Consulta de los productos con mas stock de cada sucursal para una franquicia
+- Creación de franquicias, sucursales y productos
+- Actualización de franquicias, sucursales y producto
+- Eliminación de productos
 
-**NOTA:** Ejecuta los comandos en la carpeta raiz del proyecto donde se encuentra ubicado el archivo Dockerfile 
+# Arrancar el proyecto con Docker 
+
+Asegurate de tener Docker y que los puertos 8080 y 3306 estén libres, así como los nombres usados para 
+la red, las imágenes y los contenedores no estén siendo usados.
+
+**NOTA:** Ejecuta los comandos en la carpeta raíz del proyecto donde se encuentra ubicado el archivo Dockerfile 
 
 **Ejecuta los siguientes comandos:**
 - `docker network create franquicias_red .`
@@ -12,6 +23,17 @@ la red, las imagenes y los contenedores no esten siendo usados.
 - `docker build -t franquicias-img .`
 - `docker run -d --name franquicias-cont --network franquicias_red -p 8080:8080 franquicias-img`
 
+# Arrancar el proyecto en un IDE
+- Abre el proyecto en tu IDE de preferencia
+- Crea una base de datos mysql usando docker con los siguientes comando
+- `docker pull mysql`
+- `docker run -d --name mysql-franquicias --network franquicias_red -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=franquicias  mysql`
+- Abre la clase de configuración SecretsConfig(applications/app-service/config) y cambia el host por defecto de la
+conexión a "localhost"
+
+# Servicios externos utilizados en el proyecto
+- **MySql** como base de datos para la persistencia de datos
+- **SecretManager AWS** para la administración de los datos de conexión a la base de datos
 # Arquitectura Basada en clean architecture
 
 ![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
