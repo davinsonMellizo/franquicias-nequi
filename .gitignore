@@ -171,7 +171,6 @@ modules.xml
 
 # Package Files #
 *.jar
-!app-service.jar
 *.war
 *.nar
 *.ear
@@ -335,3 +334,4 @@ gradle-app.setting
 # -----
 *.hprof
 
+!app-service.jar
