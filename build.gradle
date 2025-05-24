@@ -7,12 +7,12 @@ buildscript {
 
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.4.4'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-jar {
-    manifest{
-        attributes('Main-Class': 'co.com.nequi.MainApplication')
-    }
+springBoot {
+    mainClass = 'com.example.demo.DemoApplication'
 }
 
 apply from: './main.gradle'
