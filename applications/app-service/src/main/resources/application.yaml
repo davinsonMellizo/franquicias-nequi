@@ -1,0 +1,42 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "ms_franquicias"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"
+  profiles:
+    include: null
+  webflux:
+    base-path: "/franchise/api/v1/"
+  logging:
+    level:
+      root: INFO
+      reactor:
+        netty: OFF
+  sql:
+    init:
+      mode: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+adapters:
+  reactive-web:
+    product: "product"
+    branch: "branch"
+    franchise: "franchise"
+
+aws:
+  region: "us-east-1"
+  rdsSecretName: "nequi-franchise-cxn"
