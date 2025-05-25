@@ -17,7 +17,7 @@ la red, las imágenes y los contenedores no estén siendo usados.
 **NOTA:** Ejecuta los comandos en la carpeta raíz del proyecto donde se encuentra ubicado el archivo Dockerfile 
 
 **Ejecuta los siguientes comandos:**
-- `docker network create franquicias_red .`
+- `docker network create franquicias_red`
 - `docker pull mysql`
 - `docker run -d --name mysql-franquicias --network franquicias_red -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=franquicias  mysql`
 - `docker build -t franquicias-img .`
