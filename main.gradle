@@ -1,8 +1,5 @@
 allprojects {
     repositories {
-        maven {
-            url = "https://artifactory.apps.bancolombia.com/maven-bancolombia"
-        }
         mavenCentral()
     }
 }

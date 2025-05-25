@@ -1,0 +1,188 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template to create VPC, RDS, EC2 y Secrets Manager para el proyecto de Franquicias Nequi'
+
+Parameters:
+  KeyName:
+    Description: Nombre del par de llaves EC2
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  MyVPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: '10.0.0.0/16'
+      Tags:
+        - Key: 'Name'
+          Value: 'MyVPC'
+
+  PublicSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.1.0/24'
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: 'Name'
+          Value: 'PublicSubnet'
+
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.2.0/24'
+      AvailabilityZone: 'us-east-1a'
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: 'Name'
+          Value: 'PrivateSubnet1'
+
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: '10.0.3.0/24'
+      AvailabilityZone: 'us-east-1b'
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: 'Name'
+          Value: 'PrivateSubnet2'        
+
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: 'Name'
+          Value: 'InternetGateway'
+
+  AttachGateway:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref MyVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref MyVPC
+      Tags:
+        - Key: 'Name'
+          Value: 'PublicRouteTable'
+
+  PublicRoute:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  RDSInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: 'db.t3.micro'
+      Engine: 'MySQL'
+      MasterUsername: 'nequi'
+      MasterUserPassword: 'password'
+      DBName: 'franquicias'
+      AllocatedStorage: '20'
+      VPCSecurityGroups: [!Ref RDSSecurityGroup]
+      DBSubnetGroupName: !Ref RDSSubnetGroup
+
+  RDSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Allow MySQL access'
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: 'tcp'
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: '10.0.0.0/16'
+
+  RDSSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'Subnets for RDS'
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+
+  Secret:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: 'nequi-franchise-cxn'
+      SecretString: !Sub |
+        {
+          "username": "nequi",
+          "password": "password",
+          "engine": "mysql",
+          "host": "${RDSInstance.Endpoint.Address}",
+          "port": "3306",
+          "dbname": "franquicias"
+        }
+
+  EC2Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'ec2.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'EC2AccessSecrets'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action: 'secretsmanager:GetSecretValue'
+                Resource: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:nequi-franchise-cxn-*'
+
+  EC2InstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Roles: [!Ref EC2Role]
+
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      KeyName: !Ref KeyName
+      ImageId: ami-0953476d60561c955
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref EC2SecurityGroup]
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          set -x
+          sudo dnf update -y
+          sudo dnf install -y docker
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          sudo usermod -aG docker ec2-user
+          sudo dnf install -y git
+          git clone -b feature/products https://github.com/davinsonMellizo/franquicias-nequi.git
+          cd franquicias-nequi
+          sudo docker build -t franquicias-img .
+          sudo docker run -d --name franquicias-cont -p 8080:8080 franquicias-img
+
+
+  EC2SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Allow HTTP access'
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: 'tcp'
+          FromPort: '8080'
+          ToPort: '8080'
+          CidrIp: '0.0.0.0/0'
